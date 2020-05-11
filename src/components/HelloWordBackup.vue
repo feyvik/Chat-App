@@ -14,22 +14,17 @@
 
           <ul>
             <li v-for="(movie,key) in fireData" :key="key">
-              <div>
-                <h2>{{movie.name}}</h2>
-
-                <button class="btn btn-xs btn-primary" @click="editFormMode.push(key);">Edit</button>
-                <button class="btn btn-xs btn-danger" @click="deleteMovie(key);">Delete</button>
-                <br />
-                <br />
-
-                <input
-                  v-if="editFormMode.includes(key)"
-                  type="text"
-                  v-model="editingMovie[key]"
-                  @keyup.enter="editMovie(key)"
-                  class="form-control"
-                />
-              </div>
+              <h4>
+                {{movie.name}}
+                <button class="btn btn-xs btn-default" @click="editFormMode.push(key);">edit</button>
+              </h4>
+              <input
+                v-if="editFormMode.includes(key)"
+                type="text"
+                v-model="editingMovie[key]"
+                @keyup.enter="editMovie(key)"
+                class="form-control"
+              />
             </li>
           </ul>
         </div>
@@ -69,22 +64,22 @@ export default {
           name: this.editingMovie[key]
         })
         .then(data => {
+          this.fetchFirebaseData();
           this.editingMovie[key] = null;
           this.editFormMode = [];
         });
-    },
-    deleteMovie(key) {
-      firebase
-        .database()
-        .ref("movies/" + key)
-        .remove();
     },
     fetchFirebaseData() {
       firebase
         .database()
         .ref("movies")
-        .on("value", snapshot => {
-          this.fireData = snapshot.val();
+        .once("value")
+        .then(data => {
+          this.fireData = data.val();
+          console.log(data);
+        })
+        .catch(error => {
+          console.log(error);
         });
     }
   },
