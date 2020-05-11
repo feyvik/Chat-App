@@ -3,12 +3,11 @@
     <!-- Login section -->
     <div class="login mt-5" v-if="!name">
       <h3 class="mt-5">Join Chat</h3>
-      <label for="username">userName</label> <br />
+      <label for="username">userName</label>
+      <br />
       <input class="mb-3" type="text" v-model="userName" />
       <br />
-      <button class="btn btn-primary" @click="updateUsername">
-        Join Chat
-      </button>
+      <button class="btn btn-primary" @click="updateUsername">Join Chat</button>
     </div>
 
     <!-- Chat section -->
@@ -22,7 +21,7 @@
             v-for="message in messages"
             :key="message"
           >
-            <span class="mg-text ">{{ message.username }}</span>
+            <span class="mg-text">{{ message.username }}</span>
             <p class="message pt-1">{{ message.text }}</p>
           </div>
         </div>
@@ -42,7 +41,7 @@ export default {
       userName: "",
       name: null,
       showMessage: "",
-      messages: [],
+      messages: []
     };
   },
   methods: {
@@ -54,31 +53,31 @@ export default {
     sendMessage() {
       const message = {
         text: this.showMessage,
-        username: this.name,
+        username: this.name
       };
       fire
         .database()
         .ref("messages")
         .push(message);
       this.showMessage = "";
-    },
+    }
   },
   mounted() {
     let viewMessage = this;
     const itemsRef = fire.database().ref("messages");
-    itemsRef.on("value", (snapshot) => {
+    itemsRef.on("value", snapshot => {
       let data = snapshot.val();
       let messages = [];
-      Object.keys(data).forEach((key) => {
+      Object.keys(data).forEach(key => {
         messages.push({
           id: key,
           username: data[key].username,
-          text: data[key].text,
+          text: data[key].text
         });
       });
       viewMessage.messages = messages;
     });
-  },
+  }
 };
 </script>
 
@@ -104,6 +103,8 @@ input {
   width: 100%;
   border-radius: 4px;
   border: 1px solid rgb(156, 156, 156);
+  padding-left: 2px;
+  padding-right: 2px;
 }
 .message-body {
   width: 40%;
@@ -126,6 +127,8 @@ input {
   border-radius: 4px;
   border: 1px solid rgb(156, 156, 156);
   height: 6vh;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 .card {
   width: 100%;
