@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- Login section -->
     <div class="login mt-5" v-if="!name">
       <h3 class="mt-5">Join Chat</h3>
       <label for="username">userName</label> <br />
@@ -10,6 +11,7 @@
       </button>
     </div>
 
+    <!-- Chat section -->
     <div class="message-body mt-3" v-else>
       <h3>Chat</h3>
       <h5>Welcome {{ name }}!</h5>
@@ -25,7 +27,6 @@
           </div>
         </div>
       </div>
-
       <input v-model="showMessage" type="text" class="mt-3 mr-2 pl-2 pr-2" />
       <button class="btn btn-primary" @click="sendMessage">Send</button>
     </div>
